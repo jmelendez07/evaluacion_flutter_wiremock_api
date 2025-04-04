@@ -43,7 +43,7 @@ class _CarsScreenState extends State<CarsScreen> {
                         leading:
                             car['imagen'] != null
                                 ? Image.network(
-                                  'https://api.allorigins.win/raw?url=$car["imagen"]',
+                                  'https://api.allorigins.win/raw?url=' + car["imagen"],
                                   width: 50,
                                   height: 50,
                                   fit: BoxFit.cover,
