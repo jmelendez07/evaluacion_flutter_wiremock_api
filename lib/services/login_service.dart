@@ -17,17 +17,25 @@ class LoginService {
   }
 
   static Future<bool> fetch(data) async {
-    final response = await http.post(
-      Uri.parse('https://carros-electricos.wiremockapi.cloud/auth'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(data),
-    );
+    // LA API NO SE ENCUENTRA DISPONIBLE, POR LO QUE COMENTE ESTE CODIGO.
+    // final response = await http.post(
+    //   Uri.parse('https://carros-electricos.wiremockapi.cloud/auth'),
+    //   headers: <String, String>{
+    //     'Content-Type': 'application/json; charset=UTF-8',
+    //   },
+    //   body: jsonEncode(data),
+    // );
 
-    if (response.statusCode == 200) {
-      final token = jsonDecode(response.body)['token'];
-      await save(token);
+    // if (response.statusCode == 200) {
+    //   final token = jsonDecode(response.body)['token'];
+    //   await save(token);
+    //   return true;
+    // } else {
+    //   return false;
+    // }
+
+    if (data["username"] == "admin") {
+      await save("token");
       return true;
     } else {
       return false;
