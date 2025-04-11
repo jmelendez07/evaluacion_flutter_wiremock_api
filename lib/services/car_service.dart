@@ -1,34 +1,40 @@
 import 'dart:convert';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_taller/services/login_service.dart';
 
 class CarService {
-  static const String _url = 'https://carros-electricos.wiremockapi.cloud/carros';
+  final _storage = const FlutterSecureStorage();
+  final String _url = "https://67f7d1812466325443eadd17.mockapi.io/carros";
 
-  static Future<List<dynamic>?> fetchCars() async {
+  Future<void> saveCar(Map<String, dynamic> car) async {
+    final cars = await getCars();
+    cars.add(car.map((key, value) => MapEntry(key, value.toString())));
+    await _storage.write(key: "cars", value: jsonEncode(cars));
+  }
+
+  Future<List<Map<String, String>>> getCars() async {
+    final data = await _storage.read(key: "cars");
+    if (data != null) {
+      final decodedData = jsonDecode(data) as List<dynamic>;
+      return decodedData.map((item) {
+        return Map<String, String>.from(item.map((key, value) => 
+          MapEntry(key.toString(), value.toString())));
+      }).toList();
+    }
+    return [];
+  }
+
+  Future<Map<String, dynamic>?> getCarById(String id) async {
+    final url = '$_url/$id';
     try {
-      String? token = await LoginService.getToken();
-
-      if (token == null || token.isEmpty) {
-        return [];
-      }
-
-      final response = await http.get(
-        Uri.parse(_url),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': token,
-        },
-      );
-
+      final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
-        final List<dynamic> cars = jsonDecode(response.body);
-        return cars;
+        return jsonDecode(response.body) as Map<String, dynamic>;
       } else {
-        return [];
+        return null;
       }
     } catch (e) {
-      return [];
+      throw Exception('Error con la API: $e');
     }
   }
 }

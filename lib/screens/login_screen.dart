@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_taller/screens/cars_screen.dart';
+import 'package:flutter_taller/screens/add_car_screen.dart';
 import 'package:flutter_taller/services/login_service.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CarsScreen()
+        builder: (context) => AddCarScreen()
       ),
     );
   }
@@ -60,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 keyboardType: TextInputType.name,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               TextField(
                 controller: _passwordController,
                 decoration: const InputDecoration(
@@ -69,12 +69,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 obscureText: true,
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _validate,
                 child: const Text('Sign In'),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Text(
                 style: TextStyle(
                   fontSize: 16, 
@@ -90,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: TextStyle(fontSize: 16),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Text(
                 style: TextStyle(
                   fontSize: 16, 

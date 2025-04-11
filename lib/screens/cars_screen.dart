@@ -11,6 +11,7 @@ class CarsScreen extends StatefulWidget {
 class _CarsScreenState extends State<CarsScreen> {
   List<dynamic> _cars = [];
   bool _isLoading = true;
+  final CarService _carsService = CarService();
 
   @override
   void initState() {
@@ -19,9 +20,9 @@ class _CarsScreenState extends State<CarsScreen> {
   }
 
   Future<void> _loadCars() async {
-    List<dynamic>? cars = await CarService.fetchCars();
+    List<dynamic>? cars = await _carsService.getCars();
     setState(() {
-      _cars = cars ?? [];
+      _cars = cars;
       _isLoading = false;
     });
   }
@@ -43,34 +44,10 @@ class _CarsScreenState extends State<CarsScreen> {
                         leading:
                             car['imagen'] != null
                                 ? Image.network(
-                                  'https://api.allorigins.win/raw?url=' + car["imagen"],
+                                  car["imagen"]!,
                                   width: 50,
                                   height: 50,
                                   fit: BoxFit.cover,
-                                  loadingBuilder: (
-                                    context,
-                                    child,
-                                    loadingProgress,
-                                  ) {
-                                    if (loadingProgress == null) {
-                                      return child;
-                                    } else {
-                                      return Center(
-                                        child: CircularProgressIndicator(
-                                          value:
-                                              loadingProgress
-                                                          .expectedTotalBytes !=
-                                                      null
-                                                  ? loadingProgress
-                                                          .cumulativeBytesLoaded /
-                                                      (loadingProgress
-                                                              .expectedTotalBytes ??
-                                                          1)
-                                                  : null,
-                                        ),
-                                      );
-                                    }
-                                  },
                                   errorBuilder: (context, error, stackTrace) {
                                     return Icon(
                                       Icons.error,
