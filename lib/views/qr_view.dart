@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
-class QRScreen extends StatelessWidget {
+class QRView extends StatelessWidget {
   final Function(Barcode) onDetect;
 
-  const QRScreen({super.key, required this.onDetect});
+  const QRView({super.key, required this.onDetect});
 
   @override
   Widget build(BuildContext context) {
